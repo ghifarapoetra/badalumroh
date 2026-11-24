@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Pendaftaran — Arah Langkah</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8C96A;
+  --gold-pale: #F8F0DC;
+  --ivory: #FAF6EE;
+  --cream: #F2EAD8;
+  --brown: #6B4E2A;
+  --dark: #1C1208;
+  --dark-warm: #2C1F0E;
+  --text: #3D2B10;
+  --text-soft: #7A6040;
+  --white: #FFFFFF;
+  --error: #c0392b;
+  --shadow-warm: rgba(100,70,20,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  background: var(--ivory);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* NAV */
+nav {
+  background: var(--dark);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.nav-back {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--gold); }
+
+/* HEADER */
+.form-header {
+  background: linear-gradient(135deg, var(--dark-warm) 0%, #3D2B10 60%, #1C1208 100%);
+  padding: 40px 24px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.form-header::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 70%);
+}
+.form-bismillah {
+  font-family: 'Lora', serif;
+  font-size: 24px;
+  color: var(--gold-light);
+  margin-bottom: 18px;
+  letter-spacing: 0.05em;
+  animation: fadeDown 0.7s ease both;
+}
+.form-title {
+  font-family: 'Lora', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+  animation: fadeDown 0.7s 0.1s ease both;
+}
+.form-subtitle {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  animation: fadeDown 0.7s 0.2s ease both;
+}
+
+/* PAKET BADGE — floating card */
+.paket-badge {
+  background: var(--white);
+  margin: 0 16px;
+  border-radius: 20px;
+  border: 2px solid var(--gold);
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -24px;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 8px 32px rgba(100,70,20,0.16);
+  gap: 12px;
+  flex-wrap: wrap;
+  animation: floatUp 0.6s 0.3s ease both;
+}
+.paket-badge-left { flex: 1; min-width: 140px; }
+.paket-badge-name {
+  font-family: 'Lora', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dark);
+}
+.paket-badge-note {
+  font-size: 12px;
+  color: var(--text-soft);
+  margin-top: 4px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.paket-badge-note span {
+  background: var(--gold-pale);
+  color: var(--brown);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.paket-badge-price {
+  font-family: 'Lora', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--brown);
+  text-align: right;
+}
+.paket-badge-price-label {
+  font-size: 11px;
+  color: var(--text-soft);
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* FORM BODY */
+.form-body {
+  padding: 24px 16px 48px;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* SECTION CARD */
+.section-card {
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow-warm);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s;
+}
+.section-card.visible {
+  opacity: 1;
+  transform: none;
+}
+.section-card:hover {
+  box-shadow: 0 8px 32px rgba(100,70,20,0.18);
+}
+.section-header {
+  background: linear-gradient(135deg, var(--dark-warm), #4A3520);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.section-number {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--dark);
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(201,168,76,0.4);
+}
+.section-title {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+.section-body {
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* FIELD */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.required { color: var(--error); }
+.field-hint {
+  font-size: 12px;
+  color: var(--text-soft);
+  font-style: italic;
+}
+
+/* INPUT STYLES — varied radius */
+input[type=text],
+input[type=tel] {
+  width: 100%;
+  background: var(--ivory);
+  border: 1.5px solid rgba(201,168,76,0.3);
+  border-radius: 50px; /* pill */
+  padding: 13px 20px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+textarea {
+  width: 100%;
+  background: var(--ivory);
+  border: 1.5px solid rgba(201,168,76,0.3);
+  border-radius: 16px; /* rounded rect */
+  padding: 14px 18px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.2s;
+  resize: vertical;
+  line-height: 1.65;
+  -webkit-appearance: none;
+  appearance: none;
+}
+select {
+  width: 100%;
+  background: var(--ivory);
+  border: 1.5px solid rgba(201,168,76,0.3);
+  border-radius: 12px; /* slightly rounded */
+  padding: 13px 42px 13px 18px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  cursor: pointer;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--gold);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(201,168,76,0.12);
+}
+input.error, select.error, textarea.error {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+}
+.error-msg {
+  font-size: 12px;
+  color: var(--error);
+  display: none;
+  padding-left: 4px;
+}
+.error-msg.show { display: block; }
+
+/* SUBMIT */
+.submit-wrap {
+  padding: 4px 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s 0.4s ease, transform 0.6s 0.4s ease;
+}
+.submit-wrap.visible { opacity: 1; transform: none; }
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--gold), #A8832A);
+  color: var(--dark);
+  font-family: 'Nunito', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 18px 24px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.25s;
+  box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+}
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(201,168,76,0.5);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+}
+.submit-btn:active { transform: scale(0.98); }
+.submit-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-soft);
+  margin-top: 14px;
+  font-style: italic;
+  line-height: 1.65;
+}
+
+/* SUCCESS POPUP */
+.popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(28,18,8,0.75);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+.popup-overlay.active { display: flex; }
+.popup-box {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 36px 28px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  position: relative;
+}
+.popup-icon {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #A8832A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 32px;
+  box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+}
+.popup-title {
+  font-family: 'Lora', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+.popup-desc {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.popup-name {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--dark);
+  background: var(--gold-pale);
+  border-radius: 12px;
+  padding: 12px 20px;
+  margin-bottom: 24px;
+  display: inline-block;
+}
+.popup-btn {
+  display: block;
+  width: 100%;
+  background: #25D366;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 16px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+}
+.popup-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,0.4); }
+.popup-cancel {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-soft);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--dark);
+  color: var(--white);
+  padding: 13px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 999;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ANIMATIONS */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes floatUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+      <rect x="6" y="10" width="20" height="18" rx="1" fill="#C9A84C" opacity="0.9"/>
+      <rect x="13" y="18" width="6" height="10" rx="1" fill="#1C1208"/>
+      <rect x="8" y="8" width="16" height="3" rx="0.5" fill="#E8C96A"/>
+      <rect x="14.5" y="3" width="3" height="6" rx="0.5" fill="#E8C96A" opacity="0.8"/>
+      <polygon points="16,1 14.5,3 17.5,3" fill="#E8C96A" opacity="0.7"/>
+    </svg>
+    Arah Langkah
+  </a>
+  <a href="index.html" class="nav-back">← Kembali</a>
+</nav>
+
+<!-- HEADER -->
+<div class="form-header">
+  <div class="form-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+  <div class="form-title">Formulir Pendaftaran</div>
+  <div class="form-subtitle">Titipkan nama dan doa mereka —<br>kami sampaikan langsung di hadapan Ka'bah.</div>
+</div>
+
+<!-- PAKET BADGE -->
+<div class="paket-badge">
+  <div class="paket-badge-left">
+    <div class="paket-badge-name">🤲 Titip Doa</div>
+    <div class="paket-badge-note">
+      <span>✓ Badal Umroh</span>
+      <span>✓ Sertifikat</span>
+      <span>✓ Hampers</span>
+    </div>
+  </div>
+  <div>
+    <div class="paket-badge-price">Rp 2.500.000</div>
+    <div class="paket-badge-price-label">all-in · tanpa biaya tambahan</div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-body">
+  <form id="badalForm" novalidate>
+    <input type="hidden" name="paket" value="Titip Doa — Rp 2.500.000 All-In">
+
+    <!-- SECTION A: DATA PEMESAN -->
+    <div class="section-card" id="cardA">
+      <div class="section-header">
+        <div class="section-number">A</div>
+        <div class="section-title">Data Pemesan</div>
+      </div>
+      <div class="section-body">
+
+        <div class="field-group">
+          <label class="field-label" for="namaPemesan">Nama <span class="required">*</span></label>
+          <input type="text" id="namaPemesan" name="namaPemesan" placeholder="Nama lengkap kamu" autocomplete="name">
+          <span class="error-msg" id="err-namaPemesan">Nama wajib diisi.</span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="noHp">No. HP / WhatsApp <span class="required">*</span></label>
+          <input type="tel" id="noHp" name="noHp" placeholder="08xxxxxxxxxx" autocomplete="tel">
+          <span class="field-hint">Untuk konfirmasi, jadwal, dan pengiriman sertifikat.</span>
+          <span class="error-msg" id="err-noHp">Nomor HP wajib diisi.</span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="alamat">Alamat Lengkap <span class="required">*</span></label>
+          <textarea id="alamat" name="alamat" rows="3" placeholder="Jl. ..., RT/RW, Kelurahan, Kecamatan, Kota, Provinsi, Kode Pos" autocomplete="street-address"></textarea>
+          <span class="field-hint">Untuk pengiriman sertifikat fisik dan hampers ke rumahmu.</span>
+          <span class="error-msg" id="err-alamat">Alamat wajib diisi.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION B: DATA YANG DIBADALKAN -->
+    <div class="section-card" id="cardB">
+      <div class="section-header">
+        <div class="section-number">B</div>
+        <div class="section-title">Data yang Dibadalkan</div>
+      </div>
+      <div class="section-body">
+
+        <div class="field-group">
+          <label class="field-label" for="namaBadal">Nama Lengkap <span class="required">*</span></label>
+          <input type="text" id="namaBadal" name="namaBadal" placeholder="Contoh: Siti Aminah binti Abdullah">
+          <span class="field-hint">Dengan bin/binti lebih baik jika diketahui.</span>
+          <span class="error-msg" id="err-namaBadal">Nama yang dibadalkan wajib diisi.</span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="kondisi">Kondisi Saat Ini <span class="required">*</span></label>
+          <select id="kondisi" name="kondisi">
+            <option value="">— Pilih kondisi —</option>
+            <option value="Meninggal dunia">Meninggal dunia</option>
+            <option value="Sakit keras / uzur syar'i">Sakit keras / uzur syar'i</option>
+          </select>
+          <span class="error-msg" id="err-kondisi">Kondisi wajib dipilih.</span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="hubungan">Hubungan dengan Pemesan <span class="required">*</span></label>
+          <select id="hubungan" name="hubungan">
+            <option value="">— Pilih hubungan —</option>
+            <option>Ibu</option>
+            <option>Bapak</option>
+            <option>Suami</option>
+            <option>Istri</option>
+            <option>Kakek</option>
+            <option>Nenek</option>
+            <option>Anak</option>
+            <option>Saudara</option>
+            <option>Lainnya</option>
+          </select>
+          <span class="error-msg" id="err-hubungan">Hubungan wajib dipilih.</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION C: DOA KHUSUS -->
+    <div class="section-card" id="cardC">
+      <div class="section-header">
+        <div class="section-number">C</div>
+        <div class="section-title">Doa Khusus &nbsp;<span style="font-weight:400;font-size:13px;opacity:0.7;">(Opsional)</span></div>
+      </div>
+      <div class="section-body">
+        <div class="field-group">
+          <label class="field-label" for="doaKhusus">Doa yang Ingin Dititipkan</label>
+          <textarea id="doaKhusus" name="doaKhusus" rows="7"
+            placeholder="Tuliskan doa apapun yang ingin kamu titipkan. Boleh singkat, boleh panjang.&#10;&#10;Contoh: Ya Allah, ampuni segala dosa almarhum, lapangkan kuburnya, dan tempatkan beliau di surga-Mu yang tertinggi. Aamiin..."></textarea>
+          <span class="field-hint">Jika dikosongkan, akan dibacakan doa kebaikan umum.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-wrap" id="submitWrap">
+      <button type="submit" class="submit-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1C1208"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.115 1.522 5.845L.057 23.428a.75.75 0 00.915.915l5.578-1.465A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.929 0-3.73-.492-5.29-1.352l-.38-.214-3.932 1.033 1.033-3.933-.214-.38A9.963 9.963 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Kirim via WhatsApp
+      </button>
+      <p class="submit-note">Setelah klik, kamu akan melihat ringkasan pendaftaran sebelum dikirim. 🤲</p>
+    </div>
+
+  </form>
+</div>
+
+<!-- SUCCESS POPUP -->
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <div class="popup-icon">🕌</div>
+    <div class="popup-title">Alhamdulillah!</div>
+    <div class="popup-desc">Data kamu sudah siap dikirim.<br>Tim kami akan membalas dengan konfirmasi dan invoice InsyaAllah.</div>
+    <div class="popup-name" id="popupNama">—</div>
+    <a href="#" class="popup-btn" id="popupWaBtn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.115 1.522 5.845L.057 23.428a.75.75 0 00.915.915l5.578-1.465A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.929 0-3.73-.492-5.29-1.352l-.38-.214-3.932 1.033 1.033-3.933-.214-.38A9.963 9.963 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Lanjut ke WhatsApp →
+    </a>
+    <span class="popup-cancel" onclick="closePopup()">Kembali &amp; periksa ulang</span>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const WA_NUMBER = '6285175132050';
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+function showError(id) {
+  document.getElementById('err-' + id)?.classList.add('show');
+  document.getElementById(id)?.classList.add('error');
+}
+function clearErrors() {
+  document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+  document.querySelectorAll('.error').forEach(e => e.classList.remove('error'));
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+function closePopup() {
+  document.getElementById('popup').classList.remove('active');
+}
+
+let waUrl = '';
+
+document.getElementById('badalForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  clearErrors();
+  let valid = true;
+
+  if (!val('namaPemesan')) { showError('namaPemesan'); valid = false; }
+  if (!val('noHp'))        { showError('noHp');        valid = false; }
+  if (!val('alamat'))      { showError('alamat');       valid = false; }
+  if (!val('namaBadal'))   { showError('namaBadal');   valid = false; }
+  if (!val('kondisi'))     { showError('kondisi');     valid = false; }
+  if (!val('hubungan'))    { showError('hubungan');    valid = false; }
+
+  if (!valid) {
+    showToast('⚠️ Mohon lengkapi data yang wajib diisi.');
+    document.querySelector('.error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const now = new Date();
+  const tgl = now.toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  const jam = now.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
+
+  const msg = `Assalamualaikum, saya ingin mendaftar Badal Umroh Arah Langkah 🕌
+
+[via Form Resmi Arah Langkah — ${tgl}, ${jam} WIB]
+
+━━━━━━━━━━━━━━━━━━━━
+📦 PAKET: Titip Doa — Rp 2.500.000 All-In
+   (Termasuk: Badal Umroh + Sertifikat + Hampers)
+━━━━━━━━━━━━━━━━━━━━
+
+👤 DATA PEMESAN
+Nama        : ${val('namaPemesan')}
+No. HP/WA   : ${val('noHp')}
+Alamat      :
+${val('alamat')}
+
+━━━━━━━━━━━━━━━━━━━━
+🤲 DATA YANG DIBADALKAN
+Nama Lengkap : ${val('namaBadal')}
+Kondisi      : ${val('kondisi')}
+Hubungan     : ${val('hubungan')}
+
+━━━━━━━━━━━━━━━━━━━━
+📖 DOA YANG DITITIPKAN
+${val('doaKhusus') || '(menggunakan doa kebaikan umum)'}
+
+━━━━━━━━━━━━━━━━━━━━
+Mohon konfirmasi dan informasi jadwal pelaksanaan.
+Jazakallahu khairan. 🤲`;
+
+  waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+  // Show popup
+  document.getElementById('popupNama').textContent = val('namaBadal');
+  document.getElementById('popupWaBtn').onclick = function(ev) {
+    ev.preventDefault();
+    location.href = waUrl;
+  };
+  document.getElementById('popup').classList.add('active');
+});
+
+// Scroll reveal for cards
+const cards = document.querySelectorAll('.section-card, .submit-wrap');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+cards.forEach((el, i) => {
+  el.style.transitionDelay = (i * 0.08) + 's';
+  obs.observe(el);
+});
+
+// Close popup on overlay click
+document.getElementById('popup').addEventListener('click', function(e) {
+  if (e.target === this) closePopup();
+});
+</script>
+</body>
+</html>
